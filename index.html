@@ -1,20 +1,40 @@
 <!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FloraMaster</title>
-<link rel="manifest" href="manifest.webmanifest">
-<style>
-body{font-family:system-ui;background:#071b14;color:#e7fff7;margin:0;padding:20px}
-button{padding:10px;border-radius:8px;border:none;background:#42d392;font-weight:bold}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FloraMaster</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    body{font-family:system-ui;background:#071b14;color:#e7fff7;margin:0;padding:18px}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px;max-width:720px}
+    button{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:#42d392;font-weight:800;cursor:pointer}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    code{color:#a7c7bd}
+    .muted{color:#a7c7bd}
+    input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);color:#e7fff7;margin-top:10px}
+  </style>
 </head>
 <body>
-<h1>🌿 FloraMaster</h1>
-<p>Gioco piante completo. Premi sync per scaricare specie.</p>
-<button onclick="sync()">Sync database</button>
-<p id="status"></p>
-<script src="app.js"></script>
+  <div class="card">
+    <h1 style="margin:0 0 6px;">🌿 FloraMaster</h1>
+    <p class="muted" style="margin:0 0 12px;">Sync da Wikidata (funziona su GitHub Pages). Se ricevi errore, premi “Mostra dettagli”.</p>
+
+    <button id="syncBtn" onclick="sync()">Sync database (500 piante)</button>
+    <button id="detailsBtn" onclick="toggleDetails()" style="margin-left:8px;background:rgba(255,209,102,.22)">Mostra dettagli</button>
+
+    <p id="status" style="margin:12px 0 0;"></p>
+    <div id="details" style="display:none;margin-top:10px;">
+      <div class="muted">Ultimo URL chiamato:</div>
+      <input id="lastUrl" readonly value="(nessuno)" />
+      <div class="muted" style="margin-top:10px;">Ultima risposta/errore:</div>
+      <pre id="lastErr" style="white-space:pre-wrap;background:rgba(0,0,0,.25);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.10);"></pre>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  </script>
 </body>
 </html>
